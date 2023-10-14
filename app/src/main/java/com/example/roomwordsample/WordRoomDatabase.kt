@@ -34,9 +34,10 @@ abstract class WordRoomDatabase : RoomDatabase() {
 
                     word = Word("TODO!")
                     wordDao.insert(word)
+                }
+            }
         }
     }
-}
 
 
     companion object {
