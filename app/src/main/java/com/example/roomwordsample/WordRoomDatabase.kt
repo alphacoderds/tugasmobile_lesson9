@@ -17,7 +17,7 @@ abstract class WordRoomDatabase : RoomDatabase() {
 
     private class WorldDatabaseCallback(
         private val scope: CoroutineScope
-    ) : RoomDatabase.Callback(){
+    ) : RoomDatabase.Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
@@ -25,23 +25,21 @@ abstract class WordRoomDatabase : RoomDatabase() {
                 scope.launch {
                     var wordDao = database.wordDao()
 
-                        wordDao.deleteAll()
+                    wordDao.deleteAll()
 
-                        var word = Word("Hello")
-                        wordDao.insert(word)
-                        word = Word("World!")
-                        wordDao.insert(word)
+                    var word = Word("Hello")
+                    wordDao.insert(word)
+                    word = Word("World!")
+                    wordDao.insert(word)
 
-                        word = Word("TODO!")
-                        wordDao.insert(word)
-                    }
-                }
-            }
+                    word = Word("TODO!")
+                    wordDao.insert(word)
         }
+    }
+}
+
 
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
         @Volatile
         private var INSTANCE: WordRoomDatabase? = null
 
@@ -49,16 +47,12 @@ abstract class WordRoomDatabase : RoomDatabase() {
             context: Context,
             scope: CoroutineScope
         ): WordRoomDatabase {
-
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     WordRoomDatabase::class.java,
                     "word_database"
                 )
-                    .addCallback(WordDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 // return instance
