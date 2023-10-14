@@ -1,6 +1,7 @@
 package com.example.roomwordsample
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -24,17 +25,19 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                 scope.launch {
                     var wordDao = database.wordDao()
 
-                    suspend fun populateDatabase(wordDao: WordDao) {
                         wordDao.deleteAll()
+
                         var word = Word("Hello")
                         wordDao.insert(word)
                         word = Word("World!")
                         wordDao.insert(word)
+
+                        word = Word("TODO!")
+                    wordDao.insert(word)
                     }
                 }
             }
         }
-    }
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -54,7 +57,9 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     WordRoomDatabase::class.java,
                     "word_database"
-                ).build()
+                )
+                    .addCallback(WordDatabaseCallback(scope))
+                    .build()
                 INSTANCE = instance
                 // return instance
                 instance
