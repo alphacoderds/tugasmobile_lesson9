@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = arrayOf(Word::class), version = 1, exportSchema = false)
-public abstract class WordRoomDatabase : RoomDatabase() {
+abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao
 
@@ -19,7 +19,7 @@ public abstract class WordRoomDatabase : RoomDatabase() {
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback(){
 
-        overide fun onCreate(db: SupportSQLiteDatabase) {
+        override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
@@ -33,7 +33,7 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                         wordDao.insert(word)
 
                         word = Word("TODO!")
-                    wordDao.insert(word)
+                        wordDao.insert(word)
                     }
                 }
             }
