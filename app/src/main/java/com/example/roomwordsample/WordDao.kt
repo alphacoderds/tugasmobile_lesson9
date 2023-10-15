@@ -4,13 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+import java.util.*
+import java.util.concurrent.Flow as Flow
 
 @Dao
 interface WordDao {
 
     @Query("SELECT * FROM word_table ORDER BY word ASC")
-    fun getAlphabetizedWords(): Flow<List<Word>>
+    fun getAlphabetizedWords(): kotlinx.coroutines.flow.Flow<List<Word>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(word: Word)
