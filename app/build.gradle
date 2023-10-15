@@ -2,10 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("com.google.devtools.ksp")
-
 }
-
-
+apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.example.roomwordsample'
